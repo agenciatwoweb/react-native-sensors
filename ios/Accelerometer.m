@@ -2,12 +2,14 @@
 
 
 #import <React/RCTBridge.h>
-#import <React/RCTEventDispatcher.h>
+#import <React/RCTEventEmitter.h>
+#import <React/RCTBridgeModule.h>
+
 #import "Accelerometer.h"
 
 @implementation Accelerometer
 
-@synthesize bridge = _bridge;
+//@synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE();
 
@@ -24,6 +26,10 @@ RCT_EXPORT_MODULE();
 + (BOOL)requiresMainQueueSetup
 {
     return NO;
+}
+
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"Accelerometer"];
 }
 
 RCT_REMAP_METHOD(isAvailable,
@@ -93,7 +99,7 @@ RCT_EXPORT_METHOD(startUpdates) {
          double y = accelerometerData.acceleration.y;
          double z = accelerometerData.acceleration.z;
          double timestamp = accelerometerData.timestamp;
-         NSLog(@"startAccelerometerUpdates: %f, %f, %f, %f", x, y, z, timestamp);
+//         NSLog(@"startAccelerometerUpdates: %f, %f, %f, %f", x, y, z, timestamp);
 
          [self sendEventWithName:@"Accelerometer" body:@{
                                                                                    @"x" : [NSNumber numberWithDouble:x],
