@@ -2,12 +2,16 @@
 
 #import "Gyroscope.h"
 #import <React/RCTBridge.h>
-#import <React/RCTEventDispatcher.h>
+#import <React/RCTEventEmitter.h>
 
 @implementation Gyroscope
 
 @synthesize bridge = _bridge;
 RCT_EXPORT_MODULE();
+
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"Accelerometer"];
+}
 
 - (id) init {
     self = [super init];
