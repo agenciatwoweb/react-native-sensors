@@ -1,7 +1,21 @@
-import { DeviceEventEmitter } from "react-native";
+import { DeviceEventEmitter, NativeModules, NativeEventEmitter } from "react-native";
 import { Observable } from "rxjs";
 import { publish, refCount } from "rxjs/operators";
 import * as RNSensors from "./rnsensors";
+
+const {
+  Gyroscope: GyroNative,
+  Accelerometer: AccNative,
+  Magnetometer: MagnNative,
+  Barometer: BarNative
+} = NativeModules;
+
+const nativeApis = new Map([
+  ["accelerometer", AccNative],
+  ["gyroscope", GyroNative],
+  ["magnetometer", MagnNative],
+  ["barometer", BarNative]
+]);
 
 const listenerKeys = new Map([
   ["accelerometer", "Accelerometer"],
@@ -22,7 +36,9 @@ function createSensorObservable(sensorType) {
 
     RNSensors.isAvailable(sensorType).then(
       () => {
-        DeviceEventEmitter.addListener(listenerKeys.get(sensorType), data => {
+        let event = new NativeEventEmitter(nativeApis.get(sensorType))
+        console.log
+        event.addListener(listenerKeys.get(sensorType), data => {
           observer.next(data);
         });
 
