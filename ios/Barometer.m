@@ -8,7 +8,9 @@
 
 @implementation Barometer
 
-@synthesize bridge = _bridge;
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"Accelerometer"];
+}
 
 RCT_EXPORT_MODULE();
 
@@ -25,10 +27,6 @@ RCT_EXPORT_MODULE();
 + (BOOL)requiresMainQueueSetup
 {
     return NO;
-}
-
-- (NSArray<NSString *> *)supportedEvents {
-    return @[@"Accelerometer"];
 }
 
 RCT_REMAP_METHOD(isAvailable,
